@@ -5,7 +5,7 @@ services:
       - NODE_ENV=development
       context: backend
       target: development
-    command: npm run dev
+    command: npm run start:watch
     environment:
       - DATABASE_DB=CoffeeDb
       - DATABASE_USER=root
@@ -20,7 +20,6 @@ services:
       - db-password
     volumes:
       - ./backend/src:/code/src:ro
-      - ./backend/dist:/code/dist:ro
       - ./backend/package.json:/code/package.json
       - ./backend/package-lock.json:/code/package-lock.json
       - back-notused:/opt/app/node_modules

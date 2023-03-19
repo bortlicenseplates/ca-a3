@@ -1,7 +1,7 @@
 import app from "./server";
 import { port } from "./config";
 
-const server = app.listen(port, function() {
+const server = app.listen(9229, function() {
   console.log("Webserver is ready");
 });
 

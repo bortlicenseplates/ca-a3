@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   const [message, setMessage] = useState();
   useEffect(() => {
-    fetch("/api/healthz")
+    fetch("/api")
       .then(res => res.json())
       .then(res => setMessage(res.message))
       .catch(console.error);
