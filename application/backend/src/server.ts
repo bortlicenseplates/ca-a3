@@ -12,6 +12,13 @@ app.get("/", function(req: any, res: { json: (arg0: { message: string; }) => any
     .catch(next);
 });
 
+app.get("/roasters/all/", function(req: any, res: { json: (arg0: { data: any[]; }) => any; }, next: any) {
+  database.raw('select * from Roaster')
+    .then(([rows, columns]: Array<Array<any>>): any => rows[0])
+    .then((rows: any) => res.json({ data: rows }))
+    .catch(next);
+});
+
 app.get("/healthz", function(req: any, res: { json: (arg0: { message: string; }) => void; }) {
   // do app logic here to determine if app is truly healthy
   // you should return 200 if healthy, and anything else will fail
