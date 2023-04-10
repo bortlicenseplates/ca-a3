@@ -1,10 +1,28 @@
-.App {
-  text-align: center;
+.content {
+  margin: 26px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.link-content {
+  padding: 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--light);
+  text-decoration: none;
+}
+
+.link-content:hover {
+  background: var(--secondary);
+  border: 2px solid var(--primary);
+  color: var(--dark);
 }
 
 @media (prefers-reduced-motion: no-preference) {

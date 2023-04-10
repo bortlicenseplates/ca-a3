@@ -16,11 +16,10 @@ const Cultivars: React.FC = () => {
     <>
       <h1>Cultivars</h1>
       <div className="flex flex-column w-100">
-        {cultivars.map(cultivar => <Link href={`/cultivar/${cultivar.cultivarId}`}>
-          <div className="link-content">
-            <span className="name pr-2">Name: {cultivar.cultivarName}</span>
-            <span className="country">Country: {cultivar.cultivarCountry}</span>
-          </div>
+        {cultivars.map(cultivar => 
+        <Link href={`/cultivars/${cultivar.cultivarId}`} className="link-content">
+          <span className="name pr-2">Name: {cultivar.cultivarName}</span>
+          <span className="country">Country: {cultivar.cultivarCountry}</span>
         </Link>)}
       </div>
     </>

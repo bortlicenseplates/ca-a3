@@ -17,12 +17,12 @@ const Roasters: React.FC = () => {
     <>
       <h1>Roasters Table</h1>
       <div className="flex flex-column w-100">
-        {roasters.map(roaster => <Link href={`/roaster/${roaster.roasterId}`}>
-          <div className="link-content">
+        {roasters.map(roaster => (
+          <Link href={`/roasters/${roaster.roasterId}`} className="link-content">
             <span className="name pr-2">Name: {roaster.roasterName}</span>
             <span className="country">Country: { roaster.roasterCountry}</span>
-          </div>
-        </Link>)}
+          </Link>
+        ))}
       </div>
       {/* <Table title={"Roasters"} header={roastersHeader} data={roastersData}></Table> */}
     </>

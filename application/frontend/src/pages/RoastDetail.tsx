@@ -1,39 +1,39 @@
 import React, { FC, useEffect, useState } from "react";
 import Table from "../components/table/table";
 import { Link } from "wouter";
-import { roasterWithRoasts } from "../types/roasts"
+import { roastWithCultivarsAndRoaster, roasterWithRoasts } from "../types/roasts"
+import Rating from "../components/rating/rating";
 
 const RoasterDetail: FC<{ params: {id: number } }> = (props) => {
   console.log(props);
-  const [roaster, setRoaster] = useState<roasterWithRoasts>();
+  const [roast, setRoast] = useState<roastWithCultivarsAndRoaster>();
   useEffect(() => {
-    fetch(`/api/roasters/${props.params.id}`)
+    fetch(`/api/roasts/${props.params.id}`)
       .then(res => res.json())
-      .then((res: { data: roasterWithRoasts}) => {
+      .then((res: { data: roastWithCultivarsAndRoaster}) => {
         console.log(res.data);
-        setRoaster(res.data);
+        setRoast(res.data);
       })
-  }, [setRoaster]);
+  }, [setRoast]);
   return (
     <>
     <Link href="/roasters">Back</Link>
-    {roaster && (<>
-        <h1>Roaster: {roaster.roasterName}</h1>
-        <h2>Country: {roaster.roasterCountry}</h2>
-        <div className="roast-list">
-          {roaster.roasts.map(roast => 
-              <>
-                <h3>Name: {roast.roastName}</h3>
-                <p>Acidity: {roast.roastAcidity}</p>
-                <p>Sweetness: {roast.roastSweetness}</p>
-                <p>Roast Level: {roast.roastLevel}</p>
-                <p>Cultivars:</p>
-                <ul>{roast.cultivars.map(cultivar => <li>
-                  <Link href={`/cultivars/${cultivar.cultivarId}`}>{cultivar.cultivarName}</Link>
-                </li>)}</ul>
-              </>
-            )}
-        </div>
+    {roast && (<>
+        <h1>Name: {roast.roastName}</h1>
+        <h2><Link href={`/roasters/${roast.roasterId}`}>Roaster: {roast.roasterName}</Link></h2>
+        <h2>Country: {roast.roasterCountry}</h2>
+        <p className="flex">Acidity: <Rating rating={roast.roastAcidity} /></p>
+        <p className="flex">Sweetness: <Rating rating={roast.roastSweetness} /></p>
+        <p className="flex">Roast Level: <Rating rating={roast.roastLevel} /></p>
+        <hr />
+        <h2>Cultivars:</h2>
+        {roast.cultivars.map(cultivar => 
+          <h3>
+            <Link href={`/cultivars/${cultivar.cultivarId}`}>
+              Name: {cultivar.cultivarName}
+            </Link>
+          </h3>
+        )}
     </>)}
     </>
   );

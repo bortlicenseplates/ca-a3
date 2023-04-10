@@ -5,9 +5,11 @@ import { Link, Route } from 'wouter';
 import Home from './pages/Home';
 import Navbar from './components/navbar/navbar';
 import Roaster from './pages/Roasters'
-import RoasterDetail from './pages/RoastDetail'
+import RoasterDetail from './pages/RoasterDetail'
 import CultivarDetail from './pages/CultivarDetail';
 import Cultivars from './pages/Cultivars';
+import RoastDetail from './pages/RoastDetail';
+import Roasts from './pages/Roasts';
 
 type routeItem = {
   href: string;
@@ -30,8 +32,19 @@ const routes: routeItem[] = [
     navbar: true
   },
   {
-    href: "/roaster/:id",
+    href: "/roasters/:id",
     component: RoasterDetail,
+    navbar: false
+  },
+  {
+    href: "/roasts",
+    label: 'Roasts',
+    component: Roasts,
+    navbar: true
+  },
+  {
+    href: "/roasts/:id",
+    component: RoastDetail,
     navbar: false
   },
   {
@@ -53,7 +66,9 @@ function App() {
       <Navbar title={'CoffeeDbExplorer'} logo={logo}>
         {routes.filter(c => c.navbar).map(route => <Link href={route.href} key={route.href}>{route.label}</Link>)}
       </Navbar>
-      {routes.map(route => <Route path={route.href} component={route.component} />)}
+      <div className="content">
+        {routes.map(route => <Route path={route.href} component={route.component} />)}
+      </div>
     </div>
   );
 }

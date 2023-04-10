@@ -6,7 +6,7 @@ const Navbar: FC<PropsWithChildren<{ title: string; logo: string }>> = props => 
     <div className="Navbar">
       <img className="logo" src={props.logo} alt="logo" />
       <h2>{props.title}</h2>
-      {React.Children.map(props.children, child => <div className="nav-item">{child}</div>)}
+      <div className="links">{React.Children.map(props.children, child => <div className="nav-item">{child}</div>)}</div>
     </div>
   );
 }

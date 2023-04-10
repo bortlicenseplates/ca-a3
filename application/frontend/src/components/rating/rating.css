@@ -1,0 +1,20 @@
+.Rating {
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Rating .circle {
+  display: inline-flex;
+  content: '';
+  width: 16px;
+  height: 16px;
+  background: var(--light);
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.Rating .circle:last-child {
+  margin-right: 8px;
+}
+

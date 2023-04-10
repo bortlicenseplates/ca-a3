@@ -26,5 +26,13 @@ export type roastWithCultivars = roast & {
 }
 
 export type roasterWithRoasts = roaster & {
-  roasts: roastWithCultivars[]
+  roasts: roastWithCultivars[];
 }
+
+export type roastWithRoaster = roast & roaster;
+
+export type cultivarWithRoasts = cultivar & {
+  roasts: roastWithRoaster[];
+}
+
+export type roastWithCultivarsAndRoaster = roastWithCultivars & roaster;

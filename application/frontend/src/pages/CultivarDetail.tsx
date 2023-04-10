@@ -1,36 +1,41 @@
 import React, { FC, useEffect, useState } from "react";
 import Table from "../components/table/table";
 import { Link } from "wouter";
-import { roasterWithRoasts } from "../types/roasts"
+import { cultivarWithRoasts } from "../types/roasts"
+import Rating from "../components/rating/rating";
 
 const CultivarDetail: FC<{ params: {id: number } }> = (props) => {
   console.log(props);
-  const [roaster, setRoaster] = useState<roasterWithRoasts>();
+  const [cultivars, setCultivars] = useState<cultivarWithRoasts>();
   useEffect(() => {
-    fetch(`/api/roasters/${props.params.id}`)
+    fetch(`/api/cultivars/${props.params.id}`)
       .then(res => res.json())
-      .then((res: { data: roasterWithRoasts}) => {
+      .then((res: { data: cultivarWithRoasts}) => {
         console.log(res.data);
-        setRoaster(res.data);
+        setCultivars(res.data);
       })
-  }, [setRoaster]);
+  }, [setCultivars]);
   return (
     <>
-    <Link href="/roasters">Back</Link>
-    {roaster && (<>
-        <h1>Roaster: {roaster.roasterName}</h1>
-        <h2>Country: {roaster.roasterCountry}</h2>
+    <Link href="/cultivars">Back</Link>
+    {cultivars && (<>
+        <h1>Cultivar: {cultivars.cultivarName}</h1>
+        <h2>Country: {cultivars.cultivarCountry}</h2>
+        <hr />
         <div className="roast-list">
-          {roaster.roasts.map(roast => 
+          <h2>Roasts:</h2>
+          {cultivars.roasts.map(roast => 
               <>
-                <h3>Name: {roast.roastName}</h3>
-                <p>Acidity: {roast.roastAcidity}</p>
-                <p>Sweetness: {roast.roastSweetness}</p>
-                <p>Roast Level: {roast.roastLevel}</p>
-                <p>Cultivars:</p>
-                <ul>{roast.cultivars.map(cultivar => <li>
-                  <Link href={`/cultivars/${cultivar.cultivarId}`}>{cultivar.cultivarName}</Link>
-                </li>)}</ul>
+                <h3><Link href={`/roasts/${roast.roastId}`}>
+                  Name: {roast.roastName}
+                </Link></h3>
+                <p><Link href={`/roasters/${roast.roasterId}`}>
+                  Roaster: {roast.roasterName}
+                </Link></p>
+                <p>Roaster Country: {roast.roasterCountry}</p>
+                <p className="flex">Acidity: <Rating rating={roast.roastAcidity} /></p>
+                <p className="flex">Sweetness: <Rating rating={roast.roastSweetness} /></p>
+                <p className="flex">Roast Level: <Rating rating={roast.roastLevel} /></p>
               </>
             )}
         </div>

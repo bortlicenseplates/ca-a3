@@ -1,7 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import database from "./database";
-import { cultivar, cultivarWithRoasts, roast, roastWithCultivars, roastWithRoaster, roaster, roasterWithRoasts } from "./types/roasts";
+import { cultivar, cultivarWithRoasts, roast, roastWithCultivars, roastWithCultivarsAndRoaster, roastWithRoaster, roaster, roasterWithRoasts } from "./types/roasts";
 const app = express();
 
 app.use(morgan("common"));
@@ -174,22 +174,110 @@ app.get("/cultivars/:id/", function(
             roastLevel,
             roastSweetness,
             roastAcidity
-          }) => {
-            return {
-              roastId,
-              roasterId,
-              roasterName,
-              roasterCountry,
-              roastName,
-              roastLevel,
-              roastSweetness,
-              roastAcidity,
-            }
-          }
+          }) => ({
+            roastId,
+            roasterId,
+            roasterName,
+            roasterCountry,
+            roastName,
+            roastLevel,
+            roastSweetness,
+            roastAcidity,
+          })
         )
       };
     })
-    .then((rows: cultivar) => res.json({ data: rows }))
+    .then((rows: cultivarWithRoasts) => res.json({ data: rows }))
+    .catch(next);
+});
+
+app.get("/roasts/all/", function(req: express.Request, res: express.Response<{data: roast[]}>, next: express.NextFunction) {
+  database.raw(`
+    SELECT 
+      Roast.id roastId,
+      Roast.name roastName,
+      Roast.roaster roasterId,
+      Roast.roastLevel roastLevel,
+      Roast.sweetness roastSweetness,
+      Roaster.name roasterName,
+      Roaster.country roasterCountry
+    FROM Roast
+    INNER JOIN Roaster
+    ON Roast.roaster = Roaster.id`
+  )
+    .then(([rows]: roast[][]): any => rows)
+    .then((rows: roast[]) => res.json({ data: rows }))
+    .catch(next);
+});
+
+app.get("/roasts/:id/", function(
+  req: express.Request<{id: number}>,
+  res: express.Response<{data: roastWithCultivarsAndRoaster}>,
+  next: express.NextFunction
+) {
+  database.raw(`
+    SELECT
+      Roast.id roastId,
+      Roast.name roastName,
+      Roast.roaster roasterId,
+      Roast.roastLevel roastLevel,
+      Roast.sweetness roastSweetness,
+      Roast.acidity roastAcidity,
+      Roaster.name roasterName,
+      Roaster.country roasterCountry,
+      Cultivar.id cultivarId,
+      Cultivar.name cultivarName,
+      Cultivar.country cultivarCountry,
+      Cultivar.maslMin cultivarMaslMin,
+      Cultivar.maslMax cultivarMaslMax
+    FROM Roast
+    INNER JOIN RoastCultivar
+      ON RoastCultivar.roast = Roast.id
+    INNER JOIN Cultivar
+      ON Cultivar.id = RoastCultivar.cultivar
+    INNER JOIN Roaster
+      ON Roast.roaster = Roaster.id
+    WHERE Roast.id = ${req.params.id}
+    ORDER BY Roast.id;
+  `)
+    .then(([rows]: (cultivar & roast & roaster)[][]): roastWithCultivarsAndRoaster => {
+      const { 
+        roastId,
+        roastName,
+        roastLevel,
+        roastAcidity,
+        roastSweetness,
+        roasterId,
+        roasterName,
+        roasterCountry
+      } = rows[0];
+      return {
+        roastId,
+        roastName,
+        roastLevel,
+        roastAcidity,
+        roastSweetness,
+        roasterId,
+        roasterName,
+        roasterCountry,
+        cultivars: rows.map(
+          ({
+            cultivarId,
+            cultivarName,
+            cultivarCountry,
+            cultivarMaslMin,
+            cultivarMaslMax
+          }) => ({
+            cultivarId,
+            cultivarName,
+            cultivarCountry,
+            cultivarMaslMin,
+            cultivarMaslMax
+          })
+        )
+      };
+    })
+    .then((rows: roastWithCultivarsAndRoaster) => res.json({ data: rows }))
     .catch(next);
 });
 
