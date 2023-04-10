@@ -1,0 +1,5 @@
+.listButton {
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--secondary);
+}

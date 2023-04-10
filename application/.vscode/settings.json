@@ -1,0 +1,20 @@
+{
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "default"
+      },
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 1234,
+      "driver": "MySQL",
+      "database": "CoffeeDb",
+      "username": "root",
+      "name": "docker",
+      "password": "shire"
+    }
+  ],
+  "cSpell.words": [
+    "masl"
+  ]
+}
