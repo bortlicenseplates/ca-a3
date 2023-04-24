@@ -10,18 +10,23 @@
   flex-direction: column;
 }
 
-.link-content {
+.link-content, .link-content:visited {
+  text-decoration: none;
   padding: 16px;
   margin-bottom: 8px;
   border-radius: 8px;
-  background: var(--primary);
+  background: var(--medium-dark);
   color: var(--light);
   text-decoration: none;
+  transition: all 200ms ease-in-out;
+  display: flex;
+}
+.link-content * {
+  margin-right: 8px;
 }
 
 .link-content:hover {
-  background: var(--secondary);
-  border: 2px solid var(--primary);
+  background: var(--light);
   color: var(--dark);
 }
 
