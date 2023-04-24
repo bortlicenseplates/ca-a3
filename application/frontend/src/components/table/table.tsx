@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Table(props: {
+const Table: React.FC<{
   title: string;
   header: (string | number)[];
   data: (string | number)[][];
-}) {
+}> = (props) =>  {
   return (
     <>
       <table>
@@ -28,3 +28,5 @@ export default function Table(props: {
     </>
   );
 }
+
+export default Table;
