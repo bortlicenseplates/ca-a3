@@ -4,12 +4,10 @@ const readFileSync = (filename: string) => fs.readFileSync(filename).toString("u
 
 // Constants
 export const database = {
-    host: process.env.DATABASE_HOST || "localhost",
-    port: process.env.DATABASE_PORT,
-    database: process.env.DATABASE_DB,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD
-      ? readFileSync(process.env.DATABASE_PASSWORD)
-      : null
+    host: "localhost",
+    port: 3306,
+    database: 'CoffeeDb',
+    user: 'root',
+    password: 'shire'
   };
- export const port = process.env.PORT || 8080;
+ export const port = 9001;
