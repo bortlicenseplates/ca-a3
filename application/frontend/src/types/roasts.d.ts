@@ -1,3 +1,5 @@
+import { ISOAlpha3 } from "../utils/countries";
+
 export type roast = {
   roastId: number;
   roastName: string;
@@ -5,18 +7,19 @@ export type roast = {
   roastLevel: number;
   roastSweetness: number;
   roastAcidity: number;
+  cultivarCount?: number;
 }
 
 export type roaster = {
   roasterId: number;
   roasterName: string;
-  roasterCountry: string;
+  roasterCountry: ISOAlpha3;
 };
 
 export type cultivar = {
   cultivarId: number;
   cultivarName: string;
-  cultivarCountry: string;
+  cultivarCountry: ISOAlpha3;
   cultivarMaslMin: number;
   cultivarMaslMax: number;
 }

@@ -3,43 +3,45 @@ import Table from "../components/table/table";
 import { Link } from "wouter";
 import { cultivarWithRoasts } from "../types/roasts"
 import Rating from "../components/rating/rating";
+import { Card } from "react-bootstrap";
+import CardButton from "../components/detailView/detailView";
+import { countryListAlpha3 } from "../utils/countries";
 
 const CultivarDetail: FC<{ params: {id: number } }> = (props) => {
   console.log(props);
-  const [cultivars, setCultivars] = useState<cultivarWithRoasts>();
+  const [cultivar, setCultivar] = useState<cultivarWithRoasts>();
   useEffect(() => {
     fetch(`/api/cultivars/${props.params.id}`)
       .then(res => res.json())
       .then((res: { data: cultivarWithRoasts}) => {
-        console.log(res.data);
-        setCultivars(res.data);
+        setCultivar(res.data);
       })
-  }, [setCultivars]);
+  }, [setCultivar]);
   return (
     <>
-    <Link href="/cultivars">Back</Link>
-    {cultivars && (<>
-        <h1>Cultivar: {cultivars.cultivarName}</h1>
-        <h2>Country: {cultivars.cultivarCountry}</h2>
-        <hr />
-        <div className="roast-list">
-          <h2>Roasts:</h2>
-          {cultivars.roasts.map(roast => 
-              <>
-                <h3><Link href={`/roasts/${roast.roastId}`}>
-                  Name: {roast.roastName}
-                </Link></h3>
-                <p><Link href={`/roasters/${roast.roasterId}`}>
-                  Roaster: {roast.roasterName}
-                </Link></p>
-                <p>Roaster Country: {roast.roasterCountry}</p>
-                <p className="flex">Acidity: <Rating rating={roast.roastAcidity} /></p>
-                <p className="flex">Sweetness: <Rating rating={roast.roastSweetness} /></p>
-                <p className="flex">Roast Level: <Rating rating={roast.roastLevel} /></p>
-              </>
-            )}
-        </div>
-    </>)}
+      <Link href="/cultivars">Back</Link>
+      {cultivar && (<>
+          <h1>Cultivar: {cultivar.cultivarName}</h1>
+          <h2>Country: {cultivar.cultivarCountry}</h2>
+          <p>Altitude: {cultivar.cultivarMaslMin}M - {cultivar.cultivarMaslMax}M</p>
+          <hr />
+          <div className="roast-list">
+            <h2>Roasts:</h2>
+            {cultivar.roasts.map(roast => 
+              <div className="mb-3">
+                <CardButton href={`/roasts/${roast.roastId}`} title={roast.roastName}>
+                  <p><Link href={`/roasters/${roast.roasterId}`}>
+                    Roaster: {roast.roasterName}
+                  </Link></p>
+                  <p>Roaster Country: {countryListAlpha3[roast.roasterCountry]}</p>
+                  <p className="flex">Acidity: <Rating rating={roast.roastAcidity} /></p>
+                  <p className="flex">Sweetness: <Rating rating={roast.roastSweetness} /></p>
+                  <p className="flex">Roast Level: <Rating rating={roast.roastLevel} /></p>
+                </CardButton>
+              </div>
+              )}
+          </div>
+      </>)}
     </>
   );
 }

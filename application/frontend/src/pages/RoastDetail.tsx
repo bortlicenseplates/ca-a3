@@ -3,8 +3,9 @@ import Table from "../components/table/table";
 import { Link } from "wouter";
 import { roastWithCultivarsAndRoaster, roasterWithRoasts } from "../types/roasts"
 import Rating from "../components/rating/rating";
+import CardButton from "../components/detailView/detailView";
 
-const RoasterDetail: FC<{ params: {id: number } }> = (props) => {
+const RoastDetail: FC<{ params: {id: number } }> = (props) => {
   console.log(props);
   const [roast, setRoast] = useState<roastWithCultivarsAndRoaster>();
   useEffect(() => {
@@ -27,15 +28,19 @@ const RoasterDetail: FC<{ params: {id: number } }> = (props) => {
         <p className="flex">Roast Level: <Rating rating={roast.roastLevel} /></p>
         <hr />
         <h2>Cultivars:</h2>
-        {roast.cultivars.map(cultivar => 
-          <h3>
-            <Link href={`/cultivars/${cultivar.cultivarId}`}>
-              Name: {cultivar.cultivarName}
-            </Link>
-          </h3>
+        {roast.cultivars?.map(cultivar => 
+          <div className="mb-3">
+            <CardButton href={`/cultivars/${cultivar.cultivarId}`} title={cultivar.cultivarName}>
+              <p><Link href={`/roasters/${roast.roasterId}`}>
+                Roaster: {roast.roasterName}
+              </Link></p>
+              <p>Roaster Country: {cultivar.cultivarCountry}</p>
+              <p className="flex">Masl Range: {cultivar.cultivarMaslMin}M - {cultivar.cultivarMaslMax}M</p>
+            </CardButton>
+          </div>
         )}
     </>)}
     </>
   );
 }
-export default RoasterDetail;
+export default RoastDetail;

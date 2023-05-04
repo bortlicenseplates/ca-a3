@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import React, { FC, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import { Link, Route } from 'wouter';

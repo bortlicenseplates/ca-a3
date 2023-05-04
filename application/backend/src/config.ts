@@ -11,3 +11,4 @@ export const database = {
     password: 'shire'
   };
  export const port = 9001;
+ export const fePort = 9000;

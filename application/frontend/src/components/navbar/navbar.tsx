@@ -1,5 +1,5 @@
 import React, { FC, PropsWithChildren } from "react";
-import './navbar.css';
+import './navbar.scss';
 
 const Navbar: FC<PropsWithChildren<{ title: string; logo: string }>> = props => {
   return (

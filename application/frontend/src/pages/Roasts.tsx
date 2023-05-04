@@ -9,22 +9,72 @@ const Roasts: React.FC = () => {
     fetch(`/api/roasts/all`)
       .then(res => res.json())
       .then((res: { data: (roast & roaster)[] }) => {
+        console.log(res.data)
         setRoasts(res.data);
       })
   }, [setRoasts]);
   return (
-    <>
-      <h1>Roasts List</h1>
-      <div className="flex flex-column w-100">
-        {roasts.map((roast) => <Link href={`/roasts/${roast.roastId}`}>
-          <div className="link-content">
-            <span className="name pr-2">Name: {roast.roastName}</span>
-            <span className="country">Country: { roast.roasterCountry}</span>
-          </div>
-        </Link>)}
+    <div className="container">
+    <div className="row">
+      <div className="col-12">
+        <h1>Roasts</h1>
       </div>
-      {/* <Table title={"Roasters"} header={roastersHeader} data={roastersData}></Table> */}
-    </>
+    </div>
+    {/* <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
+      <div className="row mb-2">
+        <div className="col-12">
+          <input type='text' id='cultivarName' name='cultivarName'></input>
+          <label htmlFor='cultivarName'>Name</label>
+        </div>
+      </div>
+      <div className="row mb-2">
+        <div className="col-12">
+          <select name="countryName" id="countryName">
+            {Object.keys(countryListAlpha3).map((c) => 
+              (<option value={c}>{countryListAlpha3[c as ISOAlpha3]}</option>)
+            )}
+          </select>
+          <label htmlFor='cultivarCountry'>Country</label>
+        </div>
+      </div>
+      <div className="row mb-2">
+        <div className="col-12">
+          <span>MASL (Meters Above Sea Level)</span>
+          <input type='text' id='MaslMin' name='MaslMin'></input>
+          <label htmlFor='MaslMin'>Min</label>
+          <input type='text' id='MaslMax' name='MaslMax'></input>
+          <label htmlFor='MaslMax'>Max</label>
+        </div>
+      </div>
+      <div className="row mb-2">
+        <div className="col-12">
+          <input type="submit" />
+        </div>
+      </div>
+    </form> */}
+    <div className="d-flex flex-column w-100">
+      <table className="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>Cultivar Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {roasts.map(roasts => 
+            <Link href={`/roasts/${roasts.roastId}`}>
+              <tr className="cursor-pointer">
+                <td>{roasts.roastName}</td>
+                <td>{roasts.roasterCountry}</td>
+                <td>{roasts.cultivarCount}</td>
+              </tr>
+            </Link>
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
   );
 }
 

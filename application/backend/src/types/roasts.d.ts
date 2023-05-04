@@ -5,6 +5,7 @@ export type roast = {
   roastLevel: number;
   roastSweetness: number;
   roastAcidity: number;
+  cultivarCount?: number;
 }
 
 export type roaster = {
@@ -22,7 +23,7 @@ export type cultivar = {
 }
 
 export type roastWithCultivars = roast & {
-  cultivars: cultivar[];
+  cultivars?: cultivar[];
 }
 
 export type roasterWithRoasts = roaster & {

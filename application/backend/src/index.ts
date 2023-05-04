@@ -1,7 +1,7 @@
-import app from "./server";
-import { port } from "./config";
+import { apiApp } from "./server";
+import { port, fePort } from "./config";
 
-const server = app.listen(port, function() {
+const apiServer = apiApp.listen(port, function() {
   console.log("Webserver is ready");
 });
 
@@ -26,7 +26,7 @@ process.on("SIGTERM", function onSigterm() {
 
 // shut down server
 function shutdown() {
-  server.close(function onServerClosed(err) {
+  apiServer.close(function onServerClosed(err) {
     if (err) {
       console.error(err);
       process.exit(1);

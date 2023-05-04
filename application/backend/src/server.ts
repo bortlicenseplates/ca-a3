@@ -2,25 +2,31 @@ import express from "express";
 import morgan from "morgan";
 import database from "./database";
 import { cultivar, cultivarWithRoasts, roast, roastWithCultivars, roastWithCultivarsAndRoaster, roastWithRoaster, roaster, roasterWithRoasts } from "./types/roasts";
+import path from "path";
 const app = express();
+const api = express.Router();
+const fe = express.Router();
 
 app.use(morgan("common"));
 
-app.get("/roasters/all/", function(req: express.Request, res: express.Response<{data: roaster[]}>, next: express.NextFunction) {
+
+// fe.use(express.static(path.resolve(`${__dirname}/../build/`)));
+
+api.get("/roasters/all/", function(req: express.Request, res: express.Response<{data: roaster[]}>, next: express.NextFunction) {
   database.raw(`
-    select 
-      id as roasterId,
-      name as roasterName,
-      country as roasterCountry
-    from
-      Roaster`
+    SELECT 
+      Roaster.id as roasterId,
+      Roaster.name as roasterName,
+      Roaster.country as roasterCountry
+    FROM
+      Roaster;`
   )
     .then(([rows]: roaster[][]): roaster[] => rows)
     .then((rows: roaster[]) => res.json({ data: rows }))
     .catch(next);
 });
 
-app.get(
+api.get(
   "/roasters/:id",
   (req: express.Request<{id: number}>, res: express.Response<{data: roasterWithRoasts[]}>, next: express.NextFunction) => {
     database
@@ -40,13 +46,13 @@ app.get(
         Cultivar.maslMin cultivarMaslMin,
         Cultivar.maslMax cultivarMaslMax
       FROM Roast
-      INNER JOIN Roaster
+      LEFT JOIN Roaster
           ON Roast.roaster = Roaster.id
-      INNER JOIN RoastCultivar
+      LEFT JOIN RoastCultivar
           ON RoastCultivar.roast = Roast.id
-      INNER JOIN Cultivar
+      LEFT JOIN Cultivar
           ON Cultivar.id = RoastCultivar.cultivar
-      WHERE Roaster.id = 1
+      WHERE Roaster.id = ${req.params.id}
       ORDER BY Roast.id;
       `)
       .then(([rows]: (roast & roaster & cultivar)[][]): any => {
@@ -84,11 +90,12 @@ app.get(
                 },
               ],
             };
+            newRoast.cultivars = newRoast.cultivars?.filter(c => !!c.cultivarName)
             if (aggregator.length === 0) {
               return [newRoast];
             }
             const previous = aggregator[aggregator.length - 1];
-            if (previous.roastId === newRoast.roastId) {
+            if (previous.roastId === newRoast.roastId && previous.cultivars && newRoast.cultivars) {
               previous.cultivars.push(newRoast.cultivars[0]);
             } else {
               aggregator.push(newRoast);
@@ -110,7 +117,7 @@ app.get(
   }
 );
 
-app.get("/cultivars/all/", function(req: express.Request, res: express.Response<{data: cultivar[]}>, next: express.NextFunction) {
+api.get("/cultivars/all/", function(req: express.Request, res: express.Response<{data: cultivar[]}>, next: express.NextFunction) {
   database.raw(`
     SELECT 
       id as cultivarId,
@@ -126,7 +133,7 @@ app.get("/cultivars/all/", function(req: express.Request, res: express.Response<
     .catch(next);
 });
 
-app.get("/cultivars/:id/", function(
+api.get("/cultivars/:id/", function(
   req: express.Request<{id: number}>,
   res: express.Response<{data: cultivar}>,
   next: express.NextFunction
@@ -191,7 +198,7 @@ app.get("/cultivars/:id/", function(
     .catch(next);
 });
 
-app.get("/roasts/all/", function(req: express.Request, res: express.Response<{data: roast[]}>, next: express.NextFunction) {
+api.get("/roasts/all/", function(req: express.Request, res: express.Response<{data: roast[]}>, next: express.NextFunction) {
   database.raw(`
     SELECT 
       Roast.id roastId,
@@ -200,17 +207,28 @@ app.get("/roasts/all/", function(req: express.Request, res: express.Response<{da
       Roast.roastLevel roastLevel,
       Roast.sweetness roastSweetness,
       Roaster.name roasterName,
-      Roaster.country roasterCountry
+      Roaster.country roasterCountry,
+      COUNT(RoastCultivar.roast) as cultivarCount
     FROM Roast
     INNER JOIN Roaster
-    ON Roast.roaster = Roaster.id`
+      ON Roast.roaster = Roaster.id
+    LEFT JOIN RoastCultivar
+      ON Roast.id = RoastCultivar.roast
+    GROUP BY
+      Roast.id,
+      Roast.name,
+      Roast.roaster,
+      Roast.roastLevel,
+      Roast.sweetness,
+      Roaster.name,
+      Roaster.country`
   )
     .then(([rows]: roast[][]): any => rows)
     .then((rows: roast[]) => res.json({ data: rows }))
     .catch(next);
 });
 
-app.get("/roasts/:id/", function(
+api.get("/roasts/:id/", function(
   req: express.Request<{id: number}>,
   res: express.Response<{data: roastWithCultivarsAndRoaster}>,
   next: express.NextFunction
@@ -231,11 +249,11 @@ app.get("/roasts/:id/", function(
       Cultivar.maslMin cultivarMaslMin,
       Cultivar.maslMax cultivarMaslMax
     FROM Roast
-    INNER JOIN RoastCultivar
+    LEFT JOIN RoastCultivar
       ON RoastCultivar.roast = Roast.id
-    INNER JOIN Cultivar
+    LEFT JOIN Cultivar
       ON Cultivar.id = RoastCultivar.cultivar
-    INNER JOIN Roaster
+    LEFT JOIN Roaster
       ON Roast.roaster = Roaster.id
     WHERE Roast.id = ${req.params.id}
     ORDER BY Roast.id;
@@ -251,6 +269,17 @@ app.get("/roasts/:id/", function(
         roasterName,
         roasterCountry
       } = rows[0];
+      const cultivars: cultivar[] = rows
+        .filter(c => !!c?.cultivarId)
+        .map((r) => {
+          return {
+            cultivarId: r.cultivarId,
+            cultivarName: r.cultivarName,
+            cultivarCountry: r.cultivarCountry,
+            cultivarMaslMin: r.cultivarMaslMin,
+            cultivarMaslMax: r.cultivarMaslMax,
+          };
+        });
       return {
         roastId,
         roastName,
@@ -260,27 +289,23 @@ app.get("/roasts/:id/", function(
         roasterId,
         roasterName,
         roasterCountry,
-        cultivars: rows.map(
-          ({
-            cultivarId,
-            cultivarName,
-            cultivarCountry,
-            cultivarMaslMin,
-            cultivarMaslMax
-          }) => ({
-            cultivarId,
-            cultivarName,
-            cultivarCountry,
-            cultivarMaslMin,
-            cultivarMaslMax
-          })
-        )
+        cultivars
       };
     })
     .then((rows: roastWithCultivarsAndRoaster) => res.json({ data: rows }))
     .catch(next);
 });
 
-export default app;
+api.post("/roast/new/")
+api.put("/roast/:id/")
+api.post("/roaster/new/")
+api.put("/roaster/:id/")
+api.post("/roast/new/")
+api.put("/roast/:id/")
+
+app.use('/api/', api);
+app.use('/*', function(req, res){res.sendFile(path.join(__dirname, `build`, `index.html`))});
+
+export const apiApp = app;
 
 

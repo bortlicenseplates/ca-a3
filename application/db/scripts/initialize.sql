@@ -1,7 +1,13 @@
 CREATE DATABASE IF NOT EXISTS CoffeeDb;
 use CoffeeDb;
 
-DROP TABLE IF EXISTS Roaster, Cultivar, Roast, RoastCultivar, BrewerCategory, Brewer, Brew;
+DROP TABLE IF EXISTS Brew;
+DROP TABLE IF EXISTS Brewer;
+DROP TABLE IF EXISTS BrewerCategory;
+DROP TABLE IF EXISTS RoastCultivar;
+DROP TABLE IF EXISTS Roast;
+DROP TABLE IF EXISTS Cultivar;
+DROP TABLE IF EXISTS Roaster;
 
 CREATE TABLE CoffeeDb.Roaster (
   id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -40,7 +46,7 @@ CREATE TABLE CoffeeDb.RoastCultivar (
 
 CREATE TABLE CoffeeDb.BrewerCategory (
   id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name VARCHAR(20) NOT NULL,
+  name VARCHAR(50) NOT NULL,
   PRIMARY KEY (id)
 );
 
@@ -59,17 +65,21 @@ CREATE TABLE CoffeeDb.Brewer (
 );
 
 CREATE TABLE CoffeeDb.Brew (
-  id SMALLINT UNSIGNED NOT NULL,
+  id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   coffeeWeight FLOAT UNSIGNED NOT NULL,
+  waterWeight FLOAT UNSIGNED NOT NULL,
+  brewTime FLOAT UNSIGNED NOT NULL,
   roast SMALLINT UNSIGNED,
-  grindSize FLOAT UNSIGNED,
+  grindSize SMALLINT UNSIGNED,
   temperature FLOAT,
   clarity SMALLINT UNSIGNED NOT NULL,
   sweetness SMALLINT UNSIGNED NOT NULL,
   bitterness SMALLINT UNSIGNED NOT NULL,
   sourness SMALLINT UNSIGNED NOT NULL,
+  brewer SMALLINT UNSIGNED NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (roast) REFERENCES CoffeeDb.Roast(id)
+  FOREIGN KEY (roast) REFERENCES CoffeeDb.Roast(id),
+  FOREIGN KEY (brewer) REFERENCES CoffeeDb.Brewer(id)
 );
 
 INSERT INTO CoffeeDb.Roaster (name, country) VALUES 
@@ -415,9 +425,22 @@ INSERT INTO CoffeeDb.BrewerCategory (name) VALUES
 ('Pressurised Percolator');
 
 INSERT INTO CoffeeDb.Brewer (name, minGrind, maxGrind, speed, strengthMin, strengthMax, clarity, category) VALUES
-('Hario V60', 8, 10, 2, 1, 5, 3, 2),
-('Chemex', 8, 12, 3, 1, 5, 4, 2),
-('Aeropress', 10, 14, 1, 2, 4, 4, 1),
-('Moka Pot', 6, 8, 2, 4, 5, 2, 3),
-('Espresso Machine', 4, 6, 4, 5, 5, 5, 4),
-('French Press', 10, 14, 1, 3, 5, 2, 1);
+('Hario V60',        700,  1200, 3, 1, 4, 3, 2),
+('Chemex',           600,  1000, 3, 1, 3, 4, 2),
+('Aeropress',        500,  1200, 3, 2, 5, 2, 1),
+('Moka Pot',         400,  600,  2, 4, 5, 2, 3),
+('Espresso Machine', 200,  400,  0, 5, 5, 3, 4),
+('French Press',     1000, 1200, 5, 2, 5, 1, 1);
+
+
+INSERT INTO CoffeeDb.Brew (brewer, coffeeWeight, waterWeight, brewTime, roast, grindSize, temperature, clarity, sweetness, bitterness, sourness) VALUES 
+(1, 28.7, 400, 180, 1, 1000, 98, 10, 10, 3, 4),
+(1, 29.1, 400, 180, 1, 1000, 98, 10, 10, 3, 4),
+(1, 32.3, 400, 180, 1, 800, 98, 10, 10, 3, 4),
+(1, 30.9, 500, 180, 1, 1100, 98, 10, 10, 3, 4),
+(1, 31.8, 400, 180, 1, 1200, 98, 10, 10, 3, 4),
+(1, 28.4, 400, 180, 1, 800, 98, 10, 10, 3, 4),
+(1, 34.1, 400, 180, 1, 900, 98, 10, 10, 3, 4),
+(1, 33.7, 400, 180, 1, 700, 98, 10, 10, 3, 4),
+(1, 27.2, 400, 180, 1, 1000, 98, 10, 10, 3, 4),
+(1, 34.4, 400, 180, 1, 1000, 98, 10, 10, 3, 4);
