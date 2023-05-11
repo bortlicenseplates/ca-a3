@@ -3,12 +3,16 @@ import { cultivar } from "../types/roasts";
 import { Link } from "wouter";
 import { ISOAlpha3, countryListAlpha3 } from "../utils/countries";
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form'
+import { put } from "../utils/http";
 
 const Cultivars: React.FC = () => {
   let [cultivars, setCultivars] = useState<cultivar[]>([]);
   const { register, handleSubmit, watch, formState: { errors } } = useForm<cultivar>();
-  const onSubmit: SubmitHandler<cultivar> = (data: cultivar) => {
-    setCultivars(previous => [...previous, data]);
+  const addNew: SubmitHandler<cultivar> = (data: cultivar) => {
+    debugger;
+    put(`/api/cultivars/new/`, data).then(res => {
+      setCultivars(previous => [...previous, data]);
+    });
   };
   
   useEffect(() => {
@@ -27,7 +31,7 @@ const Cultivars: React.FC = () => {
           <h1>Cultivars</h1>
         </div>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column">
+      <form onSubmit={handleSubmit(addNew)} className="d-flex flex-column">
         <div className="row mb-2">
           <div className="col-12">
             <input type='text' id='cultivarName' name='cultivarName'></input>

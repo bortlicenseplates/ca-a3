@@ -9,7 +9,6 @@ const Roasts: React.FC = () => {
     fetch(`/api/roasts/all`)
       .then(res => res.json())
       .then((res: { data: (roast & roaster)[] }) => {
-        console.log(res.data)
         setRoasts(res.data);
       })
   }, [setRoasts]);

@@ -296,13 +296,13 @@ api.get("/roasts/:id/", function(
     .catch(next);
 });
 
-api.post("/roast/new/", (req, res) => {
+api.post("/roasts/new/", (req, res) => {
   database.raw(`
   INSERT INTO
     CoffeeDb.Roast
   VALUES ()`)
 })
-api.put("/roast/:id/", (req, res) => {
+api.put("/roasts/:id/", (req, res) => {
   database.raw(`
   UPDATE
     CoffeeDb.Roast
@@ -310,13 +310,13 @@ api.put("/roast/:id/", (req, res) => {
   WHERE
     id = ${req.params.id}`)
 })
-api.post("/roaster/new/", (req, res) => {
+api.post("/roasters/new/", (req, res) => {
   database.raw(`
   INSERT INTO
     CoffeeDb.Roast
   VALUES ()`)
 })
-api.put("/roaster/:id/", (req, res) => {
+api.put("/roasters/:id/", (req, res) => {
   database.raw(`
   UPDATE
     CoffeeDb.Roast
@@ -324,19 +324,23 @@ api.put("/roaster/:id/", (req, res) => {
   WHERE
     id = ${req.params.id}`)
 })
-api.post("/roast/new/", (req, res) => {
+api.post("/cultivars/new/", (req: express.Request<any, any, cultivar>, res: express.Response) => {
   database.raw(`
   INSERT INTO
-    CoffeeDb.Roast
-  VALUES ()`)
+    CoffeeDb.Roast (name, country, maslMin, maslMax)
+  VALUES
+    (${req.body.cultivarName}, ${req.body.cultivarCountry}, ${req.body.cultivarMaslMin}, ${req.body.cultivarMaslMax});
+  `)
+  .then((r: any) => res.json({data: r}))
 })
-api.put("/roast/:id/", (req, res) => {
+api.put("/cultivars/:id/", (req, res) => {
   database.raw(`
   UPDATE
     CoffeeDb.Roast
   SET
   WHERE
     id = ${req.params.id}`)
+
 })
 
 app.use('/api/', api);
