@@ -296,12 +296,48 @@ api.get("/roasts/:id/", function(
     .catch(next);
 });
 
-api.post("/roast/new/")
-api.put("/roast/:id/")
-api.post("/roaster/new/")
-api.put("/roaster/:id/")
-api.post("/roast/new/")
-api.put("/roast/:id/")
+api.post("/roast/new/", (req, res) => {
+  database.raw(`
+  INSERT INTO
+    CoffeeDb.Roast
+  VALUES ()`)
+})
+api.put("/roast/:id/", (req, res) => {
+  database.raw(`
+  UPDATE
+    CoffeeDb.Roast
+  SET
+  WHERE
+    id = ${req.params.id}`)
+})
+api.post("/roaster/new/", (req, res) => {
+  database.raw(`
+  INSERT INTO
+    CoffeeDb.Roast
+  VALUES ()`)
+})
+api.put("/roaster/:id/", (req, res) => {
+  database.raw(`
+  UPDATE
+    CoffeeDb.Roast
+  SET
+  WHERE
+    id = ${req.params.id}`)
+})
+api.post("/roast/new/", (req, res) => {
+  database.raw(`
+  INSERT INTO
+    CoffeeDb.Roast
+  VALUES ()`)
+})
+api.put("/roast/:id/", (req, res) => {
+  database.raw(`
+  UPDATE
+    CoffeeDb.Roast
+  SET
+  WHERE
+    id = ${req.params.id}`)
+})
 
 app.use('/api/', api);
 app.use('/*', function(req, res){res.sendFile(path.join(__dirname, `build`, `index.html`))});
