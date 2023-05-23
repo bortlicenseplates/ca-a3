@@ -119,7 +119,7 @@ const Cultivars: React.FC = () => {
               <Link href={`/cultivars/${cultivar.cultivarId}`}>
                 <tr className="cursor-pointer">
                   <td>{cultivar.cultivarName}</td>
-                  <td>{cultivar.cultivarCountry}</td>
+                  <td>{countryListAlpha3[cultivar.cultivarCountry]}</td>
                   <td>
                     {cultivar.cultivarMaslMin} - {cultivar.cultivarMaslMin} M
                   </td>
