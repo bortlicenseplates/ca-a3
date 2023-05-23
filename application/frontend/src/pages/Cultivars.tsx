@@ -123,7 +123,7 @@ const Cultivars: React.FC = () => {
                   <td>
                     {cultivar.cultivarMaslMin} - {cultivar.cultivarMaslMin} M
                   </td>
-<td><button className="btn btn-danger text-white" onClick={(e) => {
+<td align="right"><button className="btn btn-danger text-white" onClick={(e) => {
                     e.preventDefault();
                     deleteCultivar(cultivar.cultivarId)
                   }}>delete</button></td>

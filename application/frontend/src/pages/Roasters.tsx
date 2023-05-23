@@ -103,7 +103,7 @@ const Roasters: React.FC = () => {
                 <tr className="cursor-pointer">
                   <td>{roaster.roasterName}</td>
                   <td>{roaster.roasterCountry}</td>
-                  <td><button className="btn btn-danger text-white" onClick={(e) => {
+                  <td align="right"><button className="btn btn-danger text-white" onClick={(e) => {
                     e.preventDefault();
                     deleteRoaster(roaster.roasterId)
                   }}>delete</button></td>
