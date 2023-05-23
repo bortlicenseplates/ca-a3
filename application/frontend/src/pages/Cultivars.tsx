@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { cultivar } from "../types/roasts";
 import { Link } from "wouter";
 import { ISOAlpha3, countryListAlpha3 } from "../utils/countries";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { post } from "../utils/http";
 
 const Cultivars: React.FC = () => {
@@ -10,8 +10,6 @@ const Cultivars: React.FC = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
   } = useForm<cultivar>();
   const addNew: SubmitHandler<cultivar> = (data: cultivar) => {
     post(`/api/cultivars/new/`, data).then(res => {
@@ -36,6 +34,12 @@ const Cultivars: React.FC = () => {
           <h1>Cultivars</h1>
         </div>
       </div>
+      <hr />
+      <div className="row">
+        <div className="col-12">
+          <h2>Add New Cultivar</h2>
+        </div>
+      </div>
       <form onSubmit={handleSubmit(addNew)} className="d-flex flex-column">
         <div className="row mb-2">
           <div className="col-12 col-sm-2 col-md-1">
@@ -51,6 +55,7 @@ const Cultivars: React.FC = () => {
           </div>
           <div className="col-12 col-sm-10 col-11">
             <select {...register("cultivarCountry")} id="cultivarCountry" required>
+              <option value="" disabled selected hidden>Select a Country</option>
               {Object.keys(countryListAlpha3).map((c) => (
                 <option value={c}>{countryListAlpha3[c as ISOAlpha3]}</option>
               ))}
@@ -88,6 +93,12 @@ const Cultivars: React.FC = () => {
           </div>
         </div>
       </form>
+      <hr />
+      <div className="row">
+        <div className="col-12">
+          <h2>Cultivar List</h2>
+        </div>
+      </div>
       <div className="d-flex flex-column w-100">
         <table className="table table-striped table-hover">
           <thead>

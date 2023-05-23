@@ -1,14 +1,11 @@
-import React, { FC, useEffect, useState } from "react";
-import Table from "../components/table/table";
+import { FC, useEffect, useState } from "react";
 import { Link } from "wouter";
 import { cultivarWithRoasts } from "../types/roasts"
 import Rating from "../components/rating/rating";
-import { Card } from "react-bootstrap";
 import CardButton from "../components/detailView/detailView";
 import { countryListAlpha3 } from "../utils/countries";
 
 const CultivarDetail: FC<{ params: {id: number } }> = (props) => {
-  console.log(props);
   const [cultivar, setCultivar] = useState<cultivarWithRoasts>();
   useEffect(() => {
     fetch(`/api/cultivars/${props.params.id}`)
@@ -16,7 +13,7 @@ const CultivarDetail: FC<{ params: {id: number } }> = (props) => {
       .then((res: { data: cultivarWithRoasts}) => {
         setCultivar(res.data);
       })
-  }, [setCultivar]);
+  }, [props.params.id, setCultivar]);
   return (
     <>
       <Link href="/cultivars">Back</Link>

@@ -1,5 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
-import Table from "../components/table/table";
+import { FC, useEffect, useState } from "react";
 import { Link } from "wouter";
 import { cultivar, roasterWithRoasts } from "../types/roasts"
 import Rating from "../components/rating/rating";
@@ -7,7 +6,6 @@ import CardButton from "../components/detailView/detailView";
 import { countryListAlpha3 } from "../utils/countries";
 
 const RoasterDetail: FC<{ params: {id: number } }> = (props) => {
-  console.log(props);
   const [roaster, setRoaster] = useState<roasterWithRoasts>();
   useEffect(() => {
     fetch(`/api/roasters/${props.params.id}`)
@@ -15,7 +13,7 @@ const RoasterDetail: FC<{ params: {id: number } }> = (props) => {
       .then((res: { data: roasterWithRoasts}) => {
         setRoaster(res.data);
       })
-  }, [setRoaster]);
+  }, [props.params.id, setRoaster]);
   return (
     <>
       <p className="mb-4"><strong><u><Link href="/roasters">Back to Roasters</Link></u></strong></p>

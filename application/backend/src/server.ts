@@ -4,15 +4,10 @@ import morgan from "morgan";
 import database from "./database";
 import { cultivar, cultivarWithRoasts, roast, roastWithCultivars, roastWithCultivarsAndRoaster, roastWithRoaster, roaster, roasterWithRoasts } from "./types/roasts";
 import path from "path";
-import { inspect } from "util";
 const app = express();
 const api = express.Router();
 const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(morgan("common"));
-
-
-// fe.use(express.static(path.resolve(`${__dirname}/../build/`)));
 
 api.get("/roasters/all/", function(req: express.Request, res: express.Response<{data: roaster[]}>, next: express.NextFunction) {
   database.raw(`
@@ -299,48 +294,50 @@ api.get("/roasts/:id/", function(
     .catch(next);
 });
 
-api.post("/roasts/new/", (req, res) => {
+api.post("/roasts/new/", jsonParser, (req, res) => {
   database.raw(`
   INSERT INTO
-    CoffeeDb.Cultivar (name, roaster, roastLevel, sweetness, acidity)
+    CoffeeDb.Roast (name, roaster, roastLevel, sweetness, acidity)
   VALUES
-    ('${req.body.roastName}', '${req.body.roasterId}', ${req.body.roastLevel}, ${req.body.roastSweetness}, ${req.body.roastAcidity});
+    ('${req.body.roastName}', '${req.body.roasterId}', '${req.body.roastLevel}', '${req.body.roastSweetness}', '${req.body.roastAcidity}');
   `)
+  .then((r: any) => {
+    if(req.body.cultivars.length) {
+      const sql = `
+        INSERT INTO
+          CoffeeDb.RoastCultivar (roast, cultivar)
+        VALUES
+          ${req.body.cultivars.map((cultivarId: number, index: number, arr: number[]) => `(${r[0].insertId}, ${cultivarId})`
+          )}
+      ;`
+      return database.raw(sql)
+    }
+  })
   .then((r: any) => res.json({data: r}))
   .catch((e: any) => res.json({error: e}));
 
-  database.raw(`
-  INSERT INTO
-    CoffeeDb.RoastCultivar (roast, cultivar)
-  VALUES
-    ${req.body.cultivars.map((cultivarId: number) => `('${req.body.roastId}', '${cultivarId}')`)}
-  `)
-  .then((r: any) => res.json({data: r}))
-  .catch((e: any) => res.json({error: e}));
 })
 api.put("/roasts/:id/", (req, res) => {
   database.raw(`
-  UPDATE
+  DELETE FROM
     CoffeeDb.Roast
-  SET
   WHERE
     id = ${req.params.id}`)
 })
-api.post("/roasters/new/", (req, res) => {
+api.post("/roasters/new/", jsonParser, (req, res) => {
   database.raw(`
   INSERT INTO
-    CoffeeDb.Roaster (name, country);
+    CoffeeDb.Roaster (name, country)
   VALUES
     ('${req.body.roasterName}', '${req.body.roasterCountry}');
   `)
   .then((r: any) => res.json({data: r}))
   .catch((e: any) => res.json({error: e}));
 })
-api.put("/roasters/:id/", (req, res) => {
+api.delete("/roasters/:id/", (req, res) => {
   database.raw(`
-  UPDATE
+  DELETE FROM
     CoffeeDb.Roast
-  SET
   WHERE
     id = ${req.params.id}`);
 })
@@ -355,11 +352,10 @@ api.post("/cultivars/new/", jsonParser, (req: express.Request<any, any, cultivar
   .catch((e: any) => res.json({error: e}));
 });
 
-api.put("/cultivars/:id/", (req, res) => {
+api.delete("/cultivars/:id/", (req, res) => {
   database.raw(`
-  UPDATE
+  DELETE FROM
     CoffeeDb.Roast
-  SET
   WHERE
     id = ${req.params.id}`);
 })
