@@ -179,7 +179,7 @@ const Roasts: React.FC = () => {
                   <td>{roast.roastName}</td>
                   <td>{countryListAlpha3[roast.roasterCountry]}</td>
                   <td>{roast.cultivarCount}</td>
-                  <td><button className="btn btn-danger text-white" onClick={(e) => {
+                  <td align="right"><button className="btn btn-danger text-white" onClick={(e) => {
                     e.preventDefault();
                     deleteRoast(roast.roastId)
                   }}>delete</button></td>
