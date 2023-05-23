@@ -5,8 +5,8 @@ $headings-font-family:Quicksand;
 
 $primary:#783012;
 $secondary:#696969;
-$success:#ff9500;
-$danger:#ff582e;
+$success:#14b534;
+$danger:#ff221b;
 $info:#ffc800;
 $warning:#f9be6c;
 $light:#f0f0f0;
@@ -14,7 +14,7 @@ $dark:#000000;
 $enable-gradients: true;
 $spacer:16px;
 $border-width: 1px;
-$btn-border-radius:1.35rem;
+$btn-border-radius:8px;
 // Add SASS theme customizations here..
 
 @import "~bootstrap/scss/bootstrap";

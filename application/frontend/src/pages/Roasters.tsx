@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { roaster } from "../types/roasts";
 import { Link } from "wouter";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { post } from "../utils/http";
+import { fetchDelete, fetchPost } from "../utils/http";
 import { countryListAlpha3, ISOAlpha3 } from "../utils/countries";
 
 const Roasters: React.FC = () => {
@@ -14,7 +14,7 @@ const Roasters: React.FC = () => {
   } = useForm<roaster>();
 
   const addNew: SubmitHandler<roaster> = (data: roaster) => {
-    post(`/api/roasters/new/`, data)
+    fetchPost(`/api/roasters/new/`, data)
       .then((res) => {
         return res;
       })
@@ -22,6 +22,11 @@ const Roasters: React.FC = () => {
         setRoasters((previous) => [...previous, data]);
       });
   };
+
+  const deleteRoaster = (id: number) => fetchDelete(`/api/roasters/${id}`)
+    .then(() => {
+      setRoasters((previous) => previous.filter(r => r.roasterId !== id))
+    });
 
   useEffect(() => {
     fetch(`/api/roasters/all`)
@@ -73,7 +78,7 @@ const Roasters: React.FC = () => {
         </div>
         <div className="row mb-2">
           <div className="col-12">
-            <input type="submit" />
+            <input type="submit" className="btn btn-success text-white px-4" />
           </div>
         </div>
       </form>
@@ -89,6 +94,7 @@ const Roasters: React.FC = () => {
             <tr>
               <th>Name</th>
               <th>Country</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -97,6 +103,10 @@ const Roasters: React.FC = () => {
                 <tr className="cursor-pointer">
                   <td>{roaster.roasterName}</td>
                   <td>{roaster.roasterCountry}</td>
+                  <td><button className="btn btn-danger text-white" onClick={(e) => {
+                    e.preventDefault();
+                    deleteRoaster(roaster.roasterId)
+                  }}>delete</button></td>
                 </tr>
               </Link>
             ))}

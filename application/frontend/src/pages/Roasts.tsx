@@ -8,7 +8,7 @@ import {
 } from "../types/roasts";
 import { Link } from "wouter";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { post } from "../utils/http";
+import { fetchDelete, fetchPost } from "../utils/http";
 import { countryListAlpha3 } from "../utils/countries";
 
 const Roasts: React.FC = () => {
@@ -22,7 +22,7 @@ const Roasts: React.FC = () => {
   } = useForm<roastWithCultivarsAndRoaster>();
 
   const addNew: SubmitHandler<roastWithRoaster> = (data: roastWithRoaster) => {
-    post(`/api/roasts/new/`, data)
+    fetchPost(`/api/roasts/new/`, data)
       .then((res) => {
         return res;
       })
@@ -30,6 +30,11 @@ const Roasts: React.FC = () => {
         setRoasts((previous) => [...previous, data]);
       });
   };
+
+  const deleteRoast = (id: number) => fetchDelete(`/api/roasts/${id}`)
+    .then(() => {
+      setRoasts((previous) => previous.filter(r => r.roastId !== id))
+    });
 
   useEffect(() => {
     fetch(`/api/roasts/all`)
@@ -147,7 +152,7 @@ const Roasts: React.FC = () => {
         </div>
         <div className="row mb-2">
           <div className="col-12">
-            <input type="submit" />
+            <input type="submit" className="btn btn-success text-white px-4" />
           </div>
         </div>
       </form>
@@ -164,15 +169,20 @@ const Roasts: React.FC = () => {
               <th>Name</th>
               <th>Country</th>
               <th>Cultivar Count</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-            {roasts.map((roasts) => (
-              <Link href={`/roasts/${roasts.roastId}`}>
+            {roasts.map((roast) => (
+              <Link href={`/roasts/${roast.roastId}`}>
                 <tr className="cursor-pointer">
-                  <td>{roasts.roastName}</td>
-                  <td>{countryListAlpha3[roasts.roasterCountry]}</td>
-                  <td>{roasts.cultivarCount}</td>
+                  <td>{roast.roastName}</td>
+                  <td>{countryListAlpha3[roast.roasterCountry]}</td>
+                  <td>{roast.cultivarCount}</td>
+                  <td><button className="btn btn-danger text-white" onClick={(e) => {
+                    e.preventDefault();
+                    deleteRoast(roast.roastId)
+                  }}>delete</button></td>
                 </tr>
               </Link>
             ))}

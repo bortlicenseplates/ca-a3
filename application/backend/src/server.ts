@@ -315,15 +315,25 @@ api.post("/roasts/new/", jsonParser, (req, res) => {
   })
   .then((r: any) => res.json({data: r}))
   .catch((e: any) => res.json({error: e}));
-
-})
-api.put("/roasts/:id/", (req, res) => {
+});
+api.delete("/roasts/:id/", (req, res) => {
   database.raw(`
   DELETE FROM
-    CoffeeDb.Roast
+    CoffeeDb.RoastCultivar
   WHERE
-    id = ${req.params.id}`)
-})
+    roast = ${req.params.id}`)
+  .then(
+    () => database.raw(`
+      DELETE FROM
+        CoffeeDb.Roast
+      WHERE
+        id = ${req.params.id};`)
+  )
+  .then((r: any) => res.json({data: r}))
+  .catch((e: any) => res.json({error: e}));
+});
+
+
 api.post("/roasters/new/", jsonParser, (req, res) => {
   database.raw(`
   INSERT INTO
@@ -336,11 +346,23 @@ api.post("/roasters/new/", jsonParser, (req, res) => {
 })
 api.delete("/roasters/:id/", (req, res) => {
   database.raw(`
-  DELETE FROM
+  UPDATE
     CoffeeDb.Roast
+  SET roaster = NULL
   WHERE
-    id = ${req.params.id}`);
-})
+    roaster = ${req.params.id}`)
+  .then(() =>
+    database.raw(`
+    DELETE FROM
+      CoffeeDb.Roaster
+    WHERE
+      id = ${req.params.id}`)
+  )
+  .then((r: any) => res.json({data: r}))
+  .catch((e: any) => res.json({error: e}));
+});
+
+
 api.post("/cultivars/new/", jsonParser, (req: express.Request<any, any, cultivar>, res: express.Response) => {
   database.raw(`
   INSERT INTO
@@ -351,13 +373,21 @@ api.post("/cultivars/new/", jsonParser, (req: express.Request<any, any, cultivar
   .then((r: any) => res.json({data: r}))
   .catch((e: any) => res.json({error: e}));
 });
-
 api.delete("/cultivars/:id/", (req, res) => {
   database.raw(`
   DELETE FROM
-    CoffeeDb.Roast
+    CoffeeDb.RoastCultivar
   WHERE
-    id = ${req.params.id}`);
+    cultivar = ${req.params.id}`)
+  .then(
+    () => database.raw(`
+      DELETE FROM
+        CoffeeDb.Cultivar
+      WHERE
+        id = ${req.params.id};`)
+  )
+  .then((r: any) => res.json({data: r}))
+  .catch((e: any) => res.json({error: e}));
 })
 
 app.use('/api/', api);

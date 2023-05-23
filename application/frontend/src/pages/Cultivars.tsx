@@ -3,7 +3,7 @@ import { cultivar } from "../types/roasts";
 import { Link } from "wouter";
 import { ISOAlpha3, countryListAlpha3 } from "../utils/countries";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { post } from "../utils/http";
+import { fetchDelete, fetchPost } from "../utils/http";
 
 const Cultivars: React.FC = () => {
   let [cultivars, setCultivars] = useState<cultivar[]>([]);
@@ -12,12 +12,17 @@ const Cultivars: React.FC = () => {
     handleSubmit,
   } = useForm<cultivar>();
   const addNew: SubmitHandler<cultivar> = (data: cultivar) => {
-    post(`/api/cultivars/new/`, data).then(res => {
+    fetchPost(`/api/cultivars/new/`, data).then(res => {
       return res
     }).then(() => {
       setCultivars((previous) => [...previous, data]);
     });
   };
+
+  const deleteCultivar = (id: number) => fetchDelete(`/api/cultivars/${id}`)
+    .then(() => {
+      setCultivars((previous) => previous.filter(c => c.cultivarId !== id))
+    });
 
   useEffect(() => {
     fetch(`/api/cultivars/all`)
@@ -89,7 +94,7 @@ const Cultivars: React.FC = () => {
         </div>
         <div className="row mb-2">
           <div className="col-12">
-            <input type="submit" />
+            <input type="submit" className="btn btn-success text-white px-4" />
           </div>
         </div>
       </form>
@@ -106,6 +111,7 @@ const Cultivars: React.FC = () => {
               <th>Name</th>
               <th>Country</th>
               <th>Altitude</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -117,6 +123,10 @@ const Cultivars: React.FC = () => {
                   <td>
                     {cultivar.cultivarMaslMin} - {cultivar.cultivarMaslMin} M
                   </td>
+<td><button className="btn btn-danger text-white" onClick={(e) => {
+                    e.preventDefault();
+                    deleteCultivar(cultivar.cultivarId)
+                  }}>delete</button></td>
                 </tr>
               </Link>
             ))}
