@@ -1,4 +1,4 @@
-export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
+export const countryListAlpha3: { [property in ISOAlpha3]: string } = {
   "AFG": "Afghanistan",
   "ALB": "Albania",
   "DZA": "Algeria",
@@ -14,7 +14,7 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "AUS": "Australia",
   "AUT": "Austria",
   "AZE": "Azerbaijan",
-  "BHS": "Bahamas (the)",
+  "BHS": "Bahamas",
   "BHR": "Bahrain",
   "BGD": "Bangladesh",
   "BRB": "Barbados",
@@ -30,7 +30,7 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "BWA": "Botswana",
   "BVT": "Bouvet Island",
   "BRA": "Brazil",
-  "IOT": "British Indian Ocean Territory (the)",
+  "IOT": "British Indian Ocean Territory",
   "BRN": "Brunei Darussalam",
   "BGR": "Bulgaria",
   "BFA": "Burkina Faso",
@@ -39,18 +39,18 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "KHM": "Cambodia",
   "CMR": "Cameroon",
   "CAN": "Canada",
-  "CYM": "Cayman Islands (the)",
-  "CAF": "Central African Republic (the)",
+  "CYM": "Cayman Islands",
+  "CAF": "Central African Republic",
   "TCD": "Chad",
   "CHL": "Chile",
   "CHN": "China",
   "CXR": "Christmas Island",
-  "CCK": "Cocos (Keeling) Islands (the)",
+  "CCK": "Cocos (Keeling) Islands",
   "COL": "Colombia",
-  "COM": "Comoros (the)",
+  "COM": "Comoros",
   "COD": "Congo (the Democratic Republic of the)",
-  "COG": "Congo (the)",
-  "COK": "Cook Islands (the)",
+  "COG": "Congo",
+  "COK": "Cook Islands",
   "CRI": "Costa Rica",
   "HRV": "Croatia",
   "CUB": "Cuba",
@@ -61,7 +61,7 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "DNK": "Denmark",
   "DJI": "Djibouti",
   "DMA": "Dominica",
-  "DOM": "Dominican Republic (the)",
+  "DOM": "Dominican Republic",
   "ECU": "Ecuador",
   "EGY": "Egypt",
   "SLV": "El Salvador",
@@ -70,16 +70,16 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "EST": "Estonia",
   "SWZ": "Eswatini",
   "ETH": "Ethiopia",
-  "FLK": "Falkland Islands (the) [Malvinas]",
-  "FRO": "Faroe Islands (the)",
+  "FLK": "Falkland Islands [Malvinas]",
+  "FRO": "Faroe Islands",
   "FJI": "Fiji",
   "FIN": "Finland",
   "FRA": "France",
   "GUF": "French Guiana",
   "PYF": "French Polynesia",
-  "ATF": "French Southern Territories (the)",
+  "ATF": "French Southern Territories",
   "GAB": "Gabon",
-  "GMB": "Gambia (the)",
+  "GMB": "Gambia",
   "GEO": "Georgia",
   "DEU": "Germany",
   "GHA": "Ghana",
@@ -96,7 +96,7 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "GUY": "Guyana",
   "HTI": "Haiti",
   "HMD": "Heard Island and McDonald Islands",
-  "VAT": "Holy See (the)",
+  "VAT": "Holy See",
   "HND": "Honduras",
   "HKG": "Hong Kong",
   "HUN": "Hungary",
@@ -116,11 +116,11 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "KAZ": "Kazakhstan",
   "KEN": "Kenya",
   "KIR": "Kiribati",
-  "PRK": "Korea (the Democratic People's Republic of)",
-  "KOR": "Korea (the Republic of)",
+  "PRK": "North Korea",
+  "KOR": "South Korea",
   "KWT": "Kuwait",
   "KGZ": "Kyrgyzstan",
-  "LAO": "Lao People's Democratic Republic (the)",
+  "LAO": "Lao People's Democratic Republic",
   "LVA": "Latvia",
   "LBN": "Lebanon",
   "LSO": "Lesotho",
@@ -136,7 +136,7 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "MDV": "Maldives",
   "MLI": "Mali",
   "MLT": "Malta",
-  "MHL": "Marshall Islands (the)",
+  "MHL": "Marshall Islands",
   "MTQ": "Martinique",
   "MRT": "Mauritania",
   "MUS": "Mauritius",
@@ -154,15 +154,15 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "NAM": "Namibia",
   "NRU": "Nauru",
   "NPL": "Nepal",
-  "NLD": "Netherlands (the)",
+  "NLD": "Netherlands",
   "NCL": "New Caledonia",
   "NZL": "New Zealand",
   "NIC": "Nicaragua",
-  "NER": "Niger (the)",
+  "NER": "Niger",
   "NGA": "Nigeria",
   "NIU": "Niue",
   "NFK": "Norfolk Island",
-  "MNP": "Northern Mariana Islands (the)",
+  "MNP": "Northern Mariana Islands",
   "NOR": "Norway",
   "OMN": "Oman",
   "PAK": "Pakistan",
@@ -172,7 +172,7 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "PNG": "Papua New Guinea",
   "PRY": "Paraguay",
   "PER": "Peru",
-  "PHL": "Philippines (the)",
+  "PHL": "Philippines",
   "PCN": "Pitcairn",
   "POL": "Poland",
   "PRT": "Portugal",
@@ -180,7 +180,7 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "QAT": "Qatar",
   "MKD": "Republic of North Macedonia",
   "ROU": "Romania",
-  "RUS": "Russian Federation (the)",
+  "RUS": "Russian Federation",
   "RWA": "Rwanda",
   "REU": "Réunion",
   "BLM": "Saint Barthélemy",
@@ -209,7 +209,7 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "SSD": "South Sudan",
   "ESP": "Spain",
   "LKA": "Sri Lanka",
-  "SDN": "Sudan (the)",
+  "SDN": "Sudan",
   "SUR": "Suriname",
   "SJM": "Svalbard and Jan Mayen",
   "SWE": "Sweden",
@@ -227,14 +227,14 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "TUN": "Tunisia",
   "TUR": "Turkey",
   "TKM": "Turkmenistan",
-  "TCA": "Turks and Caicos Islands (the)",
+  "TCA": "Turks and Caicos Islands",
   "TUV": "Tuvalu",
   "UGA": "Uganda",
   "UKR": "Ukraine",
-  "ARE": "United Arab Emirates (the)",
-  "GBR": "United Kingdom of Great Britain and Northern Ireland (the)",
-  "UMI": "United States Minor Outlying Islands (the)",
-  "USA": "United States of America (the)",
+  "ARE": "United Arab Emirates",
+  "GBR": "United Kingdom",
+  "UMI": "United States Minor Outlying Islands",
+  "USA": "United States of America",
   "URY": "Uruguay",
   "UZB": "Uzbekistan",
   "VUT": "Vanuatu",
@@ -250,31 +250,31 @@ export const countryListAlpha3: { [property in keyof ISOAlpha3]: string } = {
   "ALA": "Åland Islands"
 };
 
-export type ISOAlpha3 = "AFG" & "ALB" & "DZA" & "ASM" & "AND" & "AGO" & "AIA" &
-        "ATA" & "ATG" & "ARG" & "ARM" & "ABW" & "AUS" & "AUT" & "AZE" & "BHS" &
-        "BHR" & "BGD" & "BRB" & "BLR" & "BEL" & "BLZ" & "BEN" & "BMU" & "BTN" &
-        "BOL" & "BES" & "BIH" & "BWA" & "BVT" & "BRA" & "IOT" & "BRN" & "BGR" &
-        "BFA" & "BDI" & "CPV" & "KHM" & "CMR" & "CAN" & "CYM" & "CAF" & "TCD" &
-        "CHL" & "CHN" & "CXR" & "CCK" & "COL" & "COM" & "COD" & "COG" & "COK" &
-        "CRI" & "HRV" & "CUB" & "CUW" & "CYP" & "CZE" & "CIV" & "DNK" & "DJI" &
-        "DMA" & "DOM" & "ECU" & "EGY" & "SLV" & "GNQ" & "ERI" & "EST" & "SWZ" &
-        "ETH" & "FLK" & "FRO" & "FJI" & "FIN" & "FRA" & "GUF" & "PYF" & "ATF" &
-        "GAB" & "GMB" & "GEO" & "DEU" & "GHA" & "GIB" & "GRC" & "GRL" & "GRD" &
-        "GLP" & "GUM" & "GTM" & "GGY" & "GIN" & "GNB" & "GUY" & "HTI" & "HMD" &
-        "VAT" & "HND" & "HKG" & "HUN" & "ISL" & "IND" & "IDN" & "IRN" & "IRQ" &
-        "IRL" & "IMN" & "ISR" & "ITA" & "JAM" & "JPN" & "JEY" & "JOR" & "KAZ" &
-        "KEN" & "KIR" & "PRK" & "KOR" & "KWT" & "KGZ" & "LAO" & "LVA" & "LBN" &
-        "LSO" & "LBR" & "LBY" & "LIE" & "LTU" & "LUX" & "MAC" & "MDG" & "MWI" &
-        "MYS" & "MDV" & "MLI" & "MLT" & "MHL" & "MTQ" & "MRT" & "MUS" & "MYT" &
-        "MEX" & "FSM" & "MDA" & "MCO" & "MNG" & "MNE" & "MSR" & "MAR" & "MOZ" &
-        "MMR" & "NAM" & "NRU" & "NPL" & "NLD" & "NCL" & "NZL" & "NIC" & "NER" &
-        "NGA" & "NIU" & "NFK" & "MNP" & "NOR" & "OMN" & "PAK" & "PLW" & "PSE" &
-        "PAN" & "PNG" & "PRY" & "PER" & "PHL" & "PCN" & "POL" & "PRT" & "PRI" &
-        "QAT" & "MKD" & "ROU" & "RUS" & "RWA" & "REU" & "BLM" & "SHN" & "KNA" &
-        "LCA" & "MAF" & "SPM" & "VCT" & "WSM" & "SMR" & "STP" & "SAU" & "SEN" &
-        "SRB" & "SYC" & "SLE" & "SGP" & "SXM" & "SVK" & "SVN" & "SLB" & "SOM" &
-        "ZAF" & "SGS" & "SSD" & "ESP" & "LKA" & "SDN" & "SUR" & "SJM" & "SWE" &
-        "CHE" & "SYR" & "TWN" & "TJK" & "TZA" & "THA" & "TLS" & "TGO" & "TKL" &
-        "TON" & "TTO" & "TUN" & "TUR" & "TKM" & "TCA" & "TUV" & "UGA" & "UKR" &
-        "ARE" & "GBR" & "UMI" & "USA" & "URY" & "UZB" & "VUT" & "VEN" & "VNM" &
-        "VGB" & "VIR" & "WLF" & "ESH" & "YEM" & "ZMB" & "ZWE" & "ALA";
+export type ISOAlpha3 = "AFG" | "ALB" | "DZA" | "ASM" | "AND" | "AGO" | "AIA" |
+        "ATA" | "ATG" | "ARG" | "ARM" | "ABW" | "AUS" | "AUT" | "AZE" | "BHS" |
+        "BHR" | "BGD" | "BRB" | "BLR" | "BEL" | "BLZ" | "BEN" | "BMU" | "BTN" |
+        "BOL" | "BES" | "BIH" | "BWA" | "BVT" | "BRA" | "IOT" | "BRN" | "BGR" |
+        "BFA" | "BDI" | "CPV" | "KHM" | "CMR" | "CAN" | "CYM" | "CAF" | "TCD" |
+        "CHL" | "CHN" | "CXR" | "CCK" | "COL" | "COM" | "COD" | "COG" | "COK" |
+        "CRI" | "HRV" | "CUB" | "CUW" | "CYP" | "CZE" | "CIV" | "DNK" | "DJI" |
+        "DMA" | "DOM" | "ECU" | "EGY" | "SLV" | "GNQ" | "ERI" | "EST" | "SWZ" |
+        "ETH" | "FLK" | "FRO" | "FJI" | "FIN" | "FRA" | "GUF" | "PYF" | "ATF" |
+        "GAB" | "GMB" | "GEO" | "DEU" | "GHA" | "GIB" | "GRC" | "GRL" | "GRD" |
+        "GLP" | "GUM" | "GTM" | "GGY" | "GIN" | "GNB" | "GUY" | "HTI" | "HMD" |
+        "VAT" | "HND" | "HKG" | "HUN" | "ISL" | "IND" | "IDN" | "IRN" | "IRQ" |
+        "IRL" | "IMN" | "ISR" | "ITA" | "JAM" | "JPN" | "JEY" | "JOR" | "KAZ" |
+        "KEN" | "KIR" | "PRK" | "KOR" | "KWT" | "KGZ" | "LAO" | "LVA" | "LBN" |
+        "LSO" | "LBR" | "LBY" | "LIE" | "LTU" | "LUX" | "MAC" | "MDG" | "MWI" |
+        "MYS" | "MDV" | "MLI" | "MLT" | "MHL" | "MTQ" | "MRT" | "MUS" | "MYT" |
+        "MEX" | "FSM" | "MDA" | "MCO" | "MNG" | "MNE" | "MSR" | "MAR" | "MOZ" |
+        "MMR" | "NAM" | "NRU" | "NPL" | "NLD" | "NCL" | "NZL" | "NIC" | "NER" |
+        "NGA" | "NIU" | "NFK" | "MNP" | "NOR" | "OMN" | "PAK" | "PLW" | "PSE" |
+        "PAN" | "PNG" | "PRY" | "PER" | "PHL" | "PCN" | "POL" | "PRT" | "PRI" |
+        "QAT" | "MKD" | "ROU" | "RUS" | "RWA" | "REU" | "BLM" | "SHN" | "KNA" |
+        "LCA" | "MAF" | "SPM" | "VCT" | "WSM" | "SMR" | "STP" | "SAU" | "SEN" |
+        "SRB" | "SYC" | "SLE" | "SGP" | "SXM" | "SVK" | "SVN" | "SLB" | "SOM" |
+        "ZAF" | "SGS" | "SSD" | "ESP" | "LKA" | "SDN" | "SUR" | "SJM" | "SWE" |
+        "CHE" | "SYR" | "TWN" | "TJK" | "TZA" | "THA" | "TLS" | "TGO" | "TKL" |
+        "TON" | "TTO" | "TUN" | "TUR" | "TKM" | "TCA" | "TUV" | "UGA" | "UKR" |
+        "ARE" | "GBR" | "UMI" | "USA" | "URY" | "UZB" | "VUT" | "VEN" | "VNM" |
+        "VGB" | "VIR" | "WLF" | "ESH" | "YEM" | "ZMB" | "ZWE" | "ALA";

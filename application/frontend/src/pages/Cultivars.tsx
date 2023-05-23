@@ -2,27 +2,32 @@ import { useEffect, useState } from "react";
 import { cultivar } from "../types/roasts";
 import { Link } from "wouter";
 import { ISOAlpha3, countryListAlpha3 } from "../utils/countries";
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form'
-import { put } from "../utils/http";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { post } from "../utils/http";
 
 const Cultivars: React.FC = () => {
   let [cultivars, setCultivars] = useState<cultivar[]>([]);
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<cultivar>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<cultivar>();
   const addNew: SubmitHandler<cultivar> = (data: cultivar) => {
-    debugger;
-    put(`/api/cultivars/new/`, data).then(res => {
-      setCultivars(previous => [...previous, data]);
+    post(`/api/cultivars/new/`, data).then(res => {
+      return res
+    }).then(() => {
+      setCultivars((previous) => [...previous, data]);
     });
   };
-  
+
   useEffect(() => {
     fetch(`/api/cultivars/all`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((res: { data: cultivar[] }) => {
         setCultivars(res.data);
-      })
+      });
   }, [setCultivars]);
-
 
   return (
     <div className="container">
@@ -33,28 +38,48 @@ const Cultivars: React.FC = () => {
       </div>
       <form onSubmit={handleSubmit(addNew)} className="d-flex flex-column">
         <div className="row mb-2">
-          <div className="col-12">
-            <input type='text' id='cultivarName' name='cultivarName'></input>
-            <label htmlFor='cultivarName'>Name</label>
+          <div className="col-12 col-sm-2 col-md-1">
+            <label htmlFor="cultivarName">Name</label>
+          </div>
+          <div className="col-12 col-sm-10 col-11">
+            <input required type="text" id="cultivarName" {...register("cultivarName")}></input>
           </div>
         </div>
         <div className="row mb-2">
-          <div className="col-12">
-            <select name="countryName" id="countryName">
-              {Object.keys(countryListAlpha3).map((c) => 
-                (<option value={c}>{countryListAlpha3[c as ISOAlpha3]}</option>)
-              )}
+          <div className="col-12 col-sm-2 col-md-1">
+            <label htmlFor="cultivarCountry">Country</label>
+          </div>
+          <div className="col-12 col-sm-10 col-11">
+            <select {...register("cultivarCountry")} id="cultivarCountry" required>
+              {Object.keys(countryListAlpha3).map((c) => (
+                <option value={c}>{countryListAlpha3[c as ISOAlpha3]}</option>
+              ))}
             </select>
-            <label htmlFor='cultivarCountry'>Country</label>
           </div>
         </div>
         <div className="row mb-2">
           <div className="col-12">
             <span>MASL (Meters Above Sea Level)</span>
-            <input type='text' id='MaslMin' name='MaslMin'></input>
-            <label htmlFor='MaslMin'>Min</label>
-            <input type='text' id='MaslMax' name='MaslMax'></input>
-            <label htmlFor='MaslMax'>Max</label>
+          </div>
+          <div className="col-12">
+            <div className="mr-2 d-inline-block">
+              <label htmlFor="cultivarMaslMin">Min</label>
+              <input required
+                className="mr-2"
+                type="text"
+                id="cultivarMaslMin"
+                {...register("cultivarMaslMin")}
+              ></input>
+            </div>
+            <div className="ml-2 d-inline-block">
+              <label htmlFor="cultivarcultivarMaslMax">Max</label>
+              <input required
+                className="mr-2"
+                type="text"
+                id="cultivarMaslMax"
+                {...register("cultivarMaslMax")}
+              ></input>
+            </div>
           </div>
         </div>
         <div className="row mb-2">
@@ -73,20 +98,22 @@ const Cultivars: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {cultivars.map(cultivar => 
+            {cultivars.map((cultivar) => (
               <Link href={`/cultivars/${cultivar.cultivarId}`}>
                 <tr className="cursor-pointer">
                   <td>{cultivar.cultivarName}</td>
                   <td>{cultivar.cultivarCountry}</td>
-                  <td>{cultivar.cultivarMaslMin} - {cultivar.cultivarMaslMin} M</td>
+                  <td>
+                    {cultivar.cultivarMaslMin} - {cultivar.cultivarMaslMin} M
+                  </td>
                 </tr>
               </Link>
-            )}
+            ))}
           </tbody>
         </table>
       </div>
     </div>
   );
-}
+};
 
 export default Cultivars;

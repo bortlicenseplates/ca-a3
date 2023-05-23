@@ -3,7 +3,6 @@
 @import url(https://fonts.googleapis.com/css?family=Quicksand:200,300,400,700);
 $headings-font-family:Quicksand;
 
-$enable-grid-classes:false;
 $primary:#783012;
 $secondary:#696969;
 $success:#ff9500;
@@ -12,12 +11,16 @@ $info:#ffc800;
 $warning:#f9be6c;
 $light:#f0f0f0;
 $dark:#000000;
-$enable-gradients:false;
-$spacer:1.2rem;
+$enable-gradients: true;
+$spacer:16px;
 $border-width: 1px;
 $btn-border-radius:1.35rem;
-// @import "bootstrap";
-
 // Add SASS theme customizations here..
 
-@import '~bootstrap/scss/bootstrap.scss';
+@import "~bootstrap/scss/bootstrap";
+
+form {
+  label {
+    margin-right: 2rem;
+  }
+}
